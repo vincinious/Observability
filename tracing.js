@@ -8,7 +8,8 @@ const { MongoDBInstrumentation } = require("@opentelemetry/instrumentation-mongo
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 
-module.exports = (serviceName) => {
+module.exports = (serviceName) => 
+    {
 
     const exporter = new ConsoleSpanExporter();
 
@@ -25,7 +26,8 @@ module.exports = (serviceName) => {
 
 
     registerInstrumentations({
-        instrumentations: [
+        instrumentations: 
+        [
             new HttpInstrumentation(),
             new ExpressInstrumentation(),
             new MongoDBInstrumentation(),
