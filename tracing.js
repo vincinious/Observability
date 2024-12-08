@@ -1,7 +1,6 @@
 const { Resource } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
-const { ConsoleSpanExporter } = require("@opentelemetry/sdk-trace-base");
-const { SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { ConsoleSpanExporter, SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { trace } = require("@opentelemetry/api");
 const { ExpressInstrumentation } = require("opentelemetry-instrumentation-express");
@@ -9,23 +8,24 @@ const { MongoDBInstrumentation } = require("@opentelemetry/instrumentation-mongo
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 
-module.exports = (serviceName) => 
-{
+module.exports = (serviceName) => {
+
     const exporter = new ConsoleSpanExporter();
-    const provider = new NodeTracerProvider
-    ({
-        resource: new Resource
-        {
+
+
+    const provider = new NodeTracerProvider({
+        resource: new Resource({
             [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
         }),
     });
+
+
     provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
     provider.register();
 
-    registerInstrumentations
-    ({
-        instrumentations:
-        [
+
+    registerInstrumentations({
+        instrumentations: [
             new HttpInstrumentation(),
             new ExpressInstrumentation(),
             new MongoDBInstrumentation(),
